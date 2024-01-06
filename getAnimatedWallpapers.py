@@ -1,9 +1,9 @@
 #!/usr/bin/python
+import os
 import json
 import shutil
 import string
 import subprocess
-import os
 from dotenv import load_dotenv
 from animatedWallpapers import (
     get_files,
@@ -16,7 +16,7 @@ from animatedWallpapers import (
 load_dotenv()
 
 STEAM_USER = os.getenv("STEAM_USER")
-WALLPAPER_ENGINE = 431960
+WALLPAPER_ENGINE = os.getenv("WALLPAPER_ENGINE_ID")
 VIDEOS_FOLDER = "/home/bleakness/wallpapers/videos/"
 
 steam_link = subprocess.check_output("wl-paste", shell=True).decode()
