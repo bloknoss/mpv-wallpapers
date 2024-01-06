@@ -19,10 +19,10 @@ The way it currently is, it doesn't accept links as a parameter, rather, it simp
 ```bash
 python3 getAnimatedWallpapers.py
 ```
-And just like that your wallpaper you copied is now downloaded and running (or should be).
+And just like that, the wallpaper you copied is now downloaded and running (or should be).
 
 ## Issues
-I will not implement many new features to this issue or give it a lot of attention, but if you find any issue or come up with any idea that could be nice you can open an issue or contact me.
+I will not implement many new features to this repo or give it a lot of attention, but if you find any issue or come up with any idea that could be nice you can open an issue or contact me.
 
 ## Contribution
-Feel free to create any pull requests or provide suggestions for the project.
+Feel free to create any pull requests or provide suggestions for the project, I'm open to accepting them.
