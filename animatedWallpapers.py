@@ -1,11 +1,11 @@
 #!/usr/bin/python
-
+from notificationService import displayNotification
 import sys
 import subprocess
 import os
 
 
-VIDEOS_FOLDER = "/home/bleakness/wallpapers/videos/"
+VIDEOS_FOLDER = "/home/alvaro/wallpapers/videos/"
 INDEX_FILE = VIDEOS_FOLDER + "index"
 
 
@@ -23,12 +23,13 @@ def play_video(VIDEO_NAME):
 
     RUNNING = isMPVRunning()
     if RUNNING == True:
-        set_wallpaper_command = (
-            f'echo \'loadfile "{VIDEOS_FOLDER + VIDEO_NAME}"\' | socat - /tmp/mpv-socket&'
-        )
+        set_wallpaper_command = f"echo 'loadfile \"{VIDEOS_FOLDER + VIDEO_NAME}\"' | socat - /tmp/mpv-socket&"
     else:
         set_wallpaper_command = f'mpvpaper -o "no-audio --loop-playlist input-ipc-server=/tmp/mpv-socket" "*" "{VIDEOS_FOLDER + VIDEO_NAME}"&'
 
+    displayNotification(
+        "MPV Engine", f"Wallpaper {VIDEO_NAME.split('.')[:-1]} now playing"
+    )
     os.system(set_wallpaper_command)
 
 

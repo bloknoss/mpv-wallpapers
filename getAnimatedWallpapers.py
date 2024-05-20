@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import json
+from notificationService import displayNotification
 import shutil
 import string
 import subprocess
@@ -17,12 +18,13 @@ load_dotenv()
 
 STEAM_USER = os.getenv("STEAM_USER")
 WALLPAPER_ENGINE = os.getenv("WALLPAPER_ENGINE_ID")
-VIDEOS_FOLDER = "/home/bleakness/wallpapers/videos/"
+VIDEOS_FOLDER = "/home/alvaro/wallpapers/videos/"
 
 steam_link = subprocess.check_output("wl-paste", shell=True).decode()
 
 
 def isUrlValid(url):
+    displayNotification("MPV Engine - Verify", "Verifying clipboard URL")
     return url.startswith("https://steamcommunity.com/")
 
 
@@ -31,7 +33,7 @@ def getItemId(url):
 
 
 def getVideoPath(
-    ITEM_ID, path="/home/bleakness/wallpapers/steamcmd/steamapps/workshop/content/"
+    ITEM_ID, path="/home/alvaro/wallpapers/steamcmd/steamapps/workshop/content/"
 ):
     return path + f"{WALLPAPER_ENGINE}/{ITEM_ID}"
 
@@ -59,20 +61,15 @@ def moveVideo(path, wallpaper_name):
         if file.endswith(".mp4") or file.endswith(".mpv")
     ][0]
     video_extension = "." + file.split(".")[-1]
-    video_full_name = root + wallpaper_name + video_extension
-
 
     shutil.move(root + file, VIDEOS_FOLDER + f"{wallpaper_name + video_extension}")
 
-
-    if os.path.exists(
-        "/home/bleakness/wallpapers/steamcmd/steamapps/workshop/content/"
-    ):
-       shutil.rmtree("/home/bleakness/wallpapers/steamcmd/steamapps/workshop/content/")
+    if os.path.exists("/home/alvaro/wallpapers/steamcmd/steamapps/workshop/content/"):
+        shutil.rmtree("/home/alvaro/wallpapers/steamcmd/steamapps/workshop/content/")
 
 
-
-def downloadVideo(ITEM_ID, path="/home/bleakness/wallpapers/steamcmd/"):
+def downloadVideo(ITEM_ID, path="/home/alvaro/wallpapers/steamcmd/"):
+    displayNotification("MPV Engine - Download", f"Starting Steam Workshop item download with id {ITEM_ID}")
     download_steam_command = f'steamcmd +force_install_dir "{path}" +login {STEAM_USER} +workshop_download_item {WALLPAPER_ENGINE} {ITEM_ID} +quit'
     os.system(download_steam_command)
 
@@ -80,6 +77,8 @@ def downloadVideo(ITEM_ID, path="/home/bleakness/wallpapers/steamcmd/"):
 def run(ITEM_ID):
     if isUrlValid(steam_link):
         downloadVideo(ITEM_ID)
+        displayNotification("MPV Engine - Download", "The video has been downloaded.")
+
         video_path = getVideoPath(ITEM_ID)
         video_name = getVideoName(ITEM_ID)
         moveVideo(video_path, video_name)

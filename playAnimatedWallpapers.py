@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
+from notificationService import displayNotification
 from animatedWallpapers import (
     get_files_count,
     read_index,
@@ -19,11 +20,15 @@ if __name__ == "__main__":
         else:
             append_index(int(current_index + 1))
 
-    if SELECTED_INSTRUCTION == "b" or SELECTED_INSTRUCTION == "backwards":
+    elif SELECTED_INSTRUCTION == "b" or SELECTED_INSTRUCTION == "backwards":
         current_index = int(read_index())
         if current_index == 0:
             append_index(get_files_count() - 1)
         else:
             append_index(int(current_index - 1))
+
+    elif SELECTED_INSTRUCTION == "p" or SELECTED_INSTRUCTION == "backwards":
+        TOGGLE_STATE_COMMAND = "echo 'cycle pause' | socat - /tmp/mpv-socket"
+        os.system(TOGGLE_STATE_COMMAND)
 
     play_video(selected_video(int(read_index())))
